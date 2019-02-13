@@ -212,3 +212,9 @@ When using protosets, you can omit the server address (host:port or path to Unix
 when using the "list" and "describe" operations since they only need to consult the
 protoset files.
 
+### gzip压缩
+如果grpc服务端开启压缩（grpc.WithCompressor(grpc.NewGZIPCompressor())和grpc.WithDecompressor(grpc.NewGZIPDecompressor())）的时候
+grpcurl需要使用gzip参数
+```shell
+grpcurl -gzip -plaintext -d '{"msg":"hello"}' 127.0.0.1:9527 testpkg.TestServer/Ping
+```
