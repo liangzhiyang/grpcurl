@@ -94,6 +94,8 @@ var (
 		Enable verbose output.`))
 	serverName = flag.String("servername", "", prettify(`
 		Override server name when validating TLS certificate.`))
+	gzip = flag.Bool("gzip", false, prettify(`
+		开启gzip压缩.`))
 )
 
 func init() {
@@ -280,6 +282,10 @@ func main() {
 		}
 		if *authority != "" {
 			opts = append(opts, grpc.WithAuthority(*authority))
+		}
+		if *gzip {
+			opts = append(opts, grpc.WithCompressor(grpc.NewGZIPCompressor()),
+				grpc.WithDecompressor(grpc.NewGZIPDecompressor()))
 		}
 		var creds credentials.TransportCredentials
 		if !*plaintext {
